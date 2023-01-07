@@ -146,11 +146,15 @@
                                                 l_pass: passl,
                                             },
                                             success: function(response) {
-                                                if(isset($_SESSION['user_id'])){
-                                                    header("location:index.php");
-                                                }
                                                 var obj = JSON.parse(response);
+                                                if(obj[0].status==1){
+                                                    
                                                 alert(obj[0].message);
+                                                window.open("index.php");
+                                                }else{
+                                                    
+                                                alert(obj[0].message);
+                                                }
                                             },
                                             error: function(err) {
                                                 alert(err);

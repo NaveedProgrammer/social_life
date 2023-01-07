@@ -127,12 +127,17 @@ session_start();
                         <div class="radio">
 
                             <label class="mb-0"> Gender <span style="color:red;">*</span> </label><br>
-
-                            <input id="radio-1" name="radios" type="radio">
-                            <label for="radio-1"><span class="radio-label"></span> Male </label>
-
-                            <input id="radio-2" name="radios" type="radio">
-                            <label for="radio-2"><span class="radio-label"></span> Female </label>
+                            <select id="gender">
+                                <option>
+                                    Male
+                                </option>
+                                <option>
+                                    Female
+                                </option>
+                                <option>
+                                    Rather Not Say
+                                </option>
+                            </select>
 
                         </div>
                         <div>
@@ -264,6 +269,8 @@ session_start();
                                 var email = $('#email').val();
                                 var phone = $('#phone').val();
                                 var pass = $('#pass').val();
+                                var uname =$("#username").val();
+                                var gender =$('#gender').val();
                                 
                                 $.ajax({
 
@@ -276,21 +283,16 @@ session_start();
                                         s_email: email,
                                         s_phone: phone,
                                         s_pass: pass,
+                                        s_username:uname,
+                                        s_gender:gender,
                                         
                                     },
                                     success: function(response) {
-                                        if (response != 1) {
-                                            blankfield();
-                                            window.location.href ='login.php';
-                                        } else {
-                                            alert(
-                                                'Your Account Already Exists With This Email.'
-                                            );
-                                            // var errr="You Account Has Not Been Registered. Try Again!";
-                                        }
+                                        alert(response);
+                                        window.open("login.php");
                                     },
                                     error: function(err) {
-                                        alert("Api Call Failed");
+                                        alert(err);
                                     },
 
                                 });
