@@ -1,7 +1,18 @@
 <?php 
 session_start();
 include_once 'config.php';
-include 'header.php'; 
+include 'header.php';
+
+if(isset($_SESSION['user_id']))
+{
+    $id=$_SESSION['user_id'];
+    $query="select * from user_table where user_id='$id'"; 
+    $result=mysqli_query($conn,$query);
+    $row= mysqli_fetch_assoc($result);
+}
+else{
+    header("location:login.php");
+}
 ?>
 
 <!-- Main Contents -->
@@ -12,7 +23,18 @@ include 'header.php';
                 <div class="profile user-profile">
   
                     <div class="profiles_banner">
-                        <img src="images/avatars/profile-cover.jpg" alt="">
+                            <?php
+                                if($row['user_cover_image'] == null){
+                                    ?>
+                                    <img src="images/cover-ic.png" alt="">
+                                    <?php
+                                }else{
+                                    ?>
+                                    <img src="images/cover-ic.png" alt="">
+                                    <?php
+
+                                }
+                                ?>
                         <div class="profile_action absolute bottom-0 right-0 space-x-1.5 p-3 text-sm z-50 hidden lg:flex">
                           <a href="#" class="flex items-center justify-center h-8 px-3 rounded-md bg-gray-700 bg-opacity-70 text-white space-x-1.5"> 
                               <ion-icon name="crop-outline" class="text-xl"></ion-icon>
@@ -28,14 +50,24 @@ include 'header.php';
 
                         <div class="profile_avatar">
                             <div class="profile_avatar_holder"> 
-                                <img src="images/avatars/avatar-8.jpg" alt="">
+                            <?php
+                                if($row['user_profile_image'] == null){
+                                    ?>
+                                    <img src="images/user-ic.png" alt="">
+                                    <?php
+                                }else{
+                                    ?>
+                                    <img src="images/cover-ic.png" alt="">
+                                    <?php
+                                }
+                                ?>
                             </div>
                             <div class="user_status status_online"></div>
                             <div class="icon_change_photo" hidden> <ion-icon name="camera" class="text-xl"></ion-icon> </div>
                         </div>
 
                         <div class="profile_info">
-                            <h1> Kamran Khan </h1>
+                            <h1> <?php echo $row['user_firstname']." ".$row['user_lastname'] ?> </h1>
                             <p> Family , Food , Fashion , Fourever <a href="#">Edit </a></p>
                         </div>
 

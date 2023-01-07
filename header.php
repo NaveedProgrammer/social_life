@@ -2,7 +2,7 @@
     if(session_id()==null) 
     { 
         session_start(); 
-    } 
+    }
     include_once 'config.php';
     ?>
 
@@ -534,29 +534,50 @@
                                 </div>
                                 <a href="#" class="see-all"> See all in Messages</a>
                             </div>
-
-
-                            <a href="#">
-                                <img src="images/avatars/avatar-2.jpg" class="is_avatar" alt="">
-                            </a>
-                            <div uk-drop="mode: click;offset:5" class="header_dropdown profile_dropdown">
-                                <?php
+                            <?php
                                 if(isset($_SESSION['user_id']))
                                 {
-                                    // include_once 'config.php';
-                                    // $id=$_SESSION['user_id'];
-                                    // $query="select * from user where id='$id'"; 
-                                    // $result=mysqli_query($conn,$query);
-                                    // $row= mysqli_fetch_assoc($result);
+                                    $id=$_SESSION['user_id'];
+                                    $query="select * from user_table where user_id='$id'"; 
+                                    $result=mysqli_query($conn,$query);
+                                    $row= mysqli_fetch_assoc($result);
+                                    
                                 ?>
+
+                            <a href="#">
+                            <?php
+                                if($row['user_profile_image'] == null){
+                                    ?>
+                                    <img src="images/user-ic.png" class="is_avatar" alt="">
+                                    <?php
+                                }else{
+                                    ?>
+                                    <img src="images/user-ic.png" class="is_avatar" alt="">
+                                    <?php
+
+                                }
+                                ?></a>
+                            <div uk-drop="mode: click;offset:5" class="header_dropdown profile_dropdown">
+                                
 
                                 <a href="timeline.php" class="user">
                                     <div class="user_avatar">
+                            <?php
+                                if($row['user_profile_image'] == null){
+                                    ?>
+                                    <img src="images/user-ic.png" alt="">
+<?php
+                                }else{
+                                    ?>
                                         <img src="images/avatars/avatar-2.jpg" alt="">
+                                    <?php
+
+                                }
+                                ?>
                                     </div>
                                     <div class="user_name">
-                                        <div>Kamran Khan</div>
-                                        <span><?php echo $_SESSION['user_name'] ?></span>
+                                        <div><?php echo $row['user_firstname']." ".$row['user_lastname'];?></div>
+                                        <span><?php echo $row['user_username'] ?></span>
                                     </div>
                                 </a>
                                 <hr>

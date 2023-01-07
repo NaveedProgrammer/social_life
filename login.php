@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php session_start();
+?>
 
 
 <!DOCTYPE html>
@@ -106,6 +107,9 @@
                             <span style="color: #336699 ;" id="msgdisplayl"></span>
 
                             <script>
+                            // if (typeof(localStorage.getItem("user_id"))=='undefined') {
+                                window.open("index.php");
+                            // }
                             $(document).ready(function() {
 
                                 $('#emaill').on('input', function() {
@@ -142,21 +146,14 @@
                                                 l_pass: passl,
                                             },
                                             success: function(response) {
-                                                if (response) {
-                                                    // alert(response);
-                                                    if (response == 1) {
-                                                        // alert(response);
-                                                        window.location.href = 'index.php';
-                                                    } else {
-                                                        $("#message").html(
-                                                            `<div class="alert alert-warning">Invalid Credential!</div>`
-                                                        );
-                                                    }
-
+                                                if(isset($_SESSION['user_id'])){
+                                                    header("location:index.php");
                                                 }
+                                                var obj = JSON.parse(response);
+                                                alert(obj[0].message);
                                             },
                                             error: function(err) {
-                                                alert("Api Call Failed");
+                                                alert(err);
                                             },
 
                                         });

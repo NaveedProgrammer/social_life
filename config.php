@@ -3,7 +3,7 @@
 define('host','localhost');
 define('username','root');
 define('password','');
-define('dbname','socialite');
+define('dbname','social_life');
 
 $conn=mysqli_connect(host,username,password,dbname);
 if(!$conn)

@@ -17,7 +17,7 @@ if(isset($_POST['Signup']))
     $username = "kamran420";
     $profile = "Images";
 
-    $emcheckquery = "select * from `user` where `user_email` = '$email'";
+    $emcheckquery = "select * from `user_table` where `user_email` = '$email'";
 
     $emcheckresult = mysqli_query($conn, $emcheckquery);
     $emailcount = mysqli_num_rows($emcheckresult);
@@ -34,27 +34,23 @@ if(isset($_POST['Signup']))
 
 if(isset($_POST['Login']))
 {
-    
+    $user=array();
     $email=mysqli_real_escape_string($conn, $_POST['l_email']);
     $pass=mysqli_real_escape_string($conn, $_POST['l_pass']);
     
-    $queryl="select * from `user` where `user_email`='$email'";
+    $queryl="SELECT * FROM `user_table` WHERE `user_email`='$email' AND `user_password`='$pass'";
     $resultl=mysqli_query($conn,$queryl);
 
-    $checkl=mysqli_num_rows($resultl) > 0;
-    if($checkl > 0)
+    $check=mysqli_num_rows($resultl) > 0;
+    if($check > 0)
     {
-        $rowl = mysqli_fetch_assoc($resultl);
-        if (password_verify($pass, $rowl['user_password'])) {
-            $_SESSION['user_first_name'] = $rowl['user_first_name'];
-            $_SESSION['user_name'] = $rowl['user_name'];
-            $_SESSION['user_id'] = $rowl['user_id'];
-            echo 1;
-        } else {
-            echo 0;
-        }
+        $row = mysqli_fetch_assoc($resultl);
+        $_SESSION['user_id']=$row['user_id'];
+        array_push($user,["status"=>1,"message"=>$row['user_firstname']." ".$row['user_lastname']." login successfully","user_id"=>$row['user_id']]);
     }else {
-        echo 0;
+        array_push($user,["status"=>0,"message"=>"user email and Password invalid"]);
     }
+    header("ContentType:application/json");
+    echo json_encode($user);
 }
 ?>
